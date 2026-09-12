@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Collaboration App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_3.css') }}">
+</head>
+<body>
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-card">
+            <div class="logo-circle">SFU</div>
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Connect with your university community</p>
+            <div class="auth-tabs">
+                <button id="loginTab" class="auth-tab active" onclick="showAuth('login')">Login</button>
+                <button id="registerTab" class="auth-tab" onclick="showAuth('register')">Register</button>
+            </div>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="primary-button" style="width:100%;">Login</button>
+            </form>
+            <form id="registerForm" class="hidden">
+                <input type="text" id="registerName" placeholder="Full Name" required>
+                <input type="text" id="registerStudentNumber" placeholder="Student Number" required>
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password" required>
+                <input type="text" id="registerFaculty" placeholder="Faculty">
+                <input type="text" id="registerCourse" placeholder="Course">
+                <button type="submit" class="primary-button" style="width:100%;">Register</button>
+            </form>
+            <div id="authMessage" class="message"></div>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon">SFU</div>
+                <div><strong>Hub</strong><small>Student Portal</small></div>
+            </div>
+            <nav>
+                <button onclick="showPage('home')">Home</button>
+                <button onclick="showPage('discover')">Discover</button>
+                <button onclick="showPage('rooms')">Rooms</button>
+                <button onclick="showPage('ai')">AI Assistant</button>
+            </nav>
+            <div class="topbar-right">
+                <button class="icon-btn" onclick="toggleDark()">🌙</button>
+                <button class="logout-button" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <section id="homePage" class="page">
+                <div class="hero-card">
+                    <div>
+                        <span class="eyebrow">CAMPUS NETWORK</span>
+                        <h1>Collaborate & Learn Together</h1>
+                        <p>Share status updates, join study groups, and connect via live rooms.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Community Feed</h2>
+                    <div id="feed"><p>Loading feed...</p></div>
+                </div>
+            </section>
+
+            <section id="discoverPage" class="page hidden">
+                <div class="card">
+                    <h2>Around Me</h2>
+                    <button class="primary-button" onclick="shareLocation()">Share My Location</button>
+                    <div id="aroundMe" style="margin-top:16px;"></div>
+                </div>
+            </section>
+
+            <section id="roomsPage" class="page hidden">
+                <div class="card">
+                    <h2>Live Study Rooms</h2>
+                    <div id="rooms"></div>
+                </div>
+                <div id="videoRoom" class="video-room hidden">
+                    <div class="video-room-header">
+                        <h3 id="activeRoomName">Room</h3>
+                        <button class="danger-button" onclick="leaveVideoRoom()">Leave Room</button>
+                    </div>
+                    <div id="videoGrid" class="video-grid"></div>
+                    <div class="room-controls">
+                        <button onclick="toggleCamera()">Toggle Cam</button>
+                        <button onclick="toggleMicrophone()">Toggle Mic</button>
+                        <button onclick="toggleScreen()">Share Screen</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aiPage" class="page hidden">
+                <div class="card ai-card">
+                    <h2>AI Study Assistant</h2>
+                    <div id="aiChat" class="ai-chat"></div>
+                    <div class="ai-input-row">
+                        <input type="text" id="aiPrompt" placeholder="Ask AI anything...">
+                        <button class="primary-button" onclick="askAI()">Send</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='app_3.js') }}"></script>
+</body>
+</html>
